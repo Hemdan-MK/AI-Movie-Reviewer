@@ -198,7 +198,7 @@ const Login = () => {
                       <Zap className="w-4 h-4 text-purple-400" />
                     </motion.div>
                     <span className="text-sm font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                      AI-Powered Experience
+                      Premium Experience
                     </span>
                   </div>
                 </motion.div>

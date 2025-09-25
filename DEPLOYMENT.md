@@ -89,15 +89,28 @@ VITE_FIREBASE_APP_ID=your_app_id
 5. **Save** the configuration
 
 #### Update Firebase Console:
+
+**Option 1: Check Authentication Settings**
 1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select your project → **Authentication** → **Sign-in method**
-3. Click **Google** provider
-4. Add your Vercel domain to **"Authorized domains"**:
+2. Select your project → **Authentication** → **Settings** tab (not Sign-in method)
+3. Scroll down to **"Authorized domains"** section
+4. Click **"Add domain"** and add:
    ```
    your-app-name.vercel.app
    your-custom-domain.com (if you have one)
    ```
 5. **Save** the configuration
+
+**Option 2: If not in Settings tab, try:**
+1. Go to **Authentication** → **Sign-in method**
+2. Scroll to the bottom of the page
+3. Look for **"Authorized domains"** section
+4. Add your Vercel domain there
+
+**Option 3: If still not found:**
+- Firebase may automatically allow your domain if your Google OAuth client is properly configured
+- The main requirement is that your **Google Cloud Console** OAuth client has the correct origins
+- Firebase often inherits domain permissions from Google Cloud Console
 
 ### 5. **Redeploy with Environment Variables**
 
@@ -125,9 +138,27 @@ npm run build
 ```
 
 #### **Google Authentication Issues**
-- **403 Error**: Check that your Vercel domain is added to Google Cloud Console
-- **Firebase Error**: Verify your Firebase project allows your domain
-- **One Tap not showing**: Make sure you're using HTTPS (Vercel provides this automatically)
+
+**🚨 Most Important: Google Cloud Console Setup**
+The **critical step** is adding your domain to Google Cloud Console:
+1. [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials
+2. Edit your OAuth 2.0 Client ID
+3. Add `https://your-app-name.vercel.app` to **"Authorized JavaScript origins"**
+4. This is **required** - One Tap won't work without it!
+
+**Firebase Domain Authorization (Secondary)**
+- **If you can't find "Authorized domains"**: Don't worry! 
+- **Most important**: Google Cloud Console origins (above)
+- **Firebase often inherits** permissions from Google Cloud Console
+- **Try these locations** in Firebase Console:
+  - Authentication → Settings tab → Authorized domains
+  - Authentication → Sign-in method → Scroll to bottom
+  - Project Settings → General → Your apps section
+
+**Other Issues:**
+- **403 Error**: Domain not in Google Cloud Console origins
+- **One Tap not showing**: Check HTTPS (Vercel auto-provides) or domain origins
+- **"Option unavailable"**: Normal on localhost, will work in production
 
 #### **Environment Variables**
 ```bash

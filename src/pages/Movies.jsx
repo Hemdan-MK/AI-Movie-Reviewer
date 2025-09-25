@@ -18,9 +18,6 @@ import {
   Filter,
   Loader2,
   Eye,
-  Heart,
-  Bookmark,
-  Share2,
   Zap
 } from 'lucide-react';
 
@@ -233,14 +230,14 @@ const Movies = () => {
                     <Zap className="w-5 h-5 text-purple-400" />
                   </motion.div>
                   <span className="font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    AI-Powered Cinema
+                    Movie Discovery
                   </span>
                 </div>
               </motion.div>
 
               {/* Main Title */}
               <motion.h1 
-                className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6"
                 initial={{ opacity: 0, y: 100 }}
                 animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 100 }}
                 transition={{ delay: 0.4, duration: 0.8, type: "spring", stiffness: 100 }}
@@ -255,7 +252,7 @@ const Movies = () => {
               </motion.h1>
 
               <motion.p 
-                className="text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed"
+                className="text-lg sm:text-xl text-gray-400 mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4 sm:px-0"
                 initial={{ opacity: 0 }}
                 animate={heroInView ? { opacity: 1 } : { opacity: 0 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
@@ -391,7 +388,7 @@ const Movies = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6"
+              className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6"
             >
               <AnimatePresence>
                 {loading ? (
@@ -446,10 +443,11 @@ const Movies = () => {
                       whileHover="hover"
                       className="group cursor-pointer"
                     >
-                      <motion.div
-                        variants={cardHoverVariants}
-                        className="relative bg-gray-900/30 backdrop-blur-sm border border-gray-800/50 rounded-2xl overflow-hidden h-full hover:border-purple-500/30 transition-colors duration-300"
-                      >
+                      <Link to={`/movie/${movie.id}`} className="block h-full">
+                        <motion.div
+                          variants={cardHoverVariants}
+                          className="relative bg-gray-900/30 backdrop-blur-sm border border-gray-800/50 rounded-2xl overflow-hidden h-full hover:border-purple-500/30 transition-colors duration-300"
+                        >
                         {/* Hover Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         
@@ -464,35 +462,6 @@ const Movies = () => {
                           
                           {/* Gradient Overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          
-                          {/* Action Buttons */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="flex space-x-2">
-                              <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
-                              >
-                                <Heart className="w-4 h-4" />
-                              </motion.button>
-                              <Link to={`/movie/${movie.id}`}>
-                                <motion.button
-                                  whileHover={{ scale: 1.1 }}
-                                  whileTap={{ scale: 0.9 }}
-                                  className="bg-purple-500/80 backdrop-blur-sm text-white p-3 rounded-full hover:bg-purple-500 transition-colors"
-                                >
-                                  <Play className="w-5 h-5" />
-                                </motion.button>
-                              </Link>
-                              <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-colors"
-                              >
-                                <Bookmark className="w-4 h-4" />
-                              </motion.button>
-                            </div>
-                          </div>
                           
                           {/* Rating Badge */}
                           <div className="absolute top-3 right-3">
@@ -519,7 +488,8 @@ const Movies = () => {
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                        </motion.div>
+                      </Link>
                     </motion.div>
                   ))
                 )}

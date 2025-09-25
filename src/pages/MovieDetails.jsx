@@ -105,7 +105,12 @@ const MovieDetails = () => {
     : 'https://via.placeholder.com/500x750?text=No+Image';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-orange-900">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black"></div>
+      </div>
+      <div className="relative z-10">
       {/* Hero Section with Backdrop */}
       <div className="relative min-h-[60vh] max-h-[80vh] overflow-hidden">
         <img
@@ -113,8 +118,8 @@ const MovieDetails = () => {
           alt={movie.title}
           className="w-full h-full object-cover"
         />
-               <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/40"></div>
-               <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-transparent to-transparent"></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/40"></div>
+               <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-transparent to-transparent"></div>
         
         {/* Content Overlay */}
         <div className="absolute inset-0 flex items-end">
@@ -174,7 +179,7 @@ const MovieDetails = () => {
                       {movie.genres.map((genre) => (
                         <span
                           key={genre.id}
-                          className="bg-orange-600/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium"
+                          className="bg-gradient-to-r from-purple-600/80 to-pink-600/80 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium"
                         >
                           {genre.name}
                         </span>
@@ -193,9 +198,9 @@ const MovieDetails = () => {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
           {/* Reviews Section */}
           <div className="xl:col-span-2">
-                 <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50">
+                 <div className="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-8 border border-gray-800/50 hover:border-purple-500/30 transition-colors duration-300">
               <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
-                <span className="w-1 h-8 bg-orange-500 rounded-full mr-4"></span>
+                <span className="w-1 h-8 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-4"></span>
                 Reviews & Discussion
               </h2>
 
@@ -218,9 +223,9 @@ const MovieDetails = () => {
 
           {/* Movie Info Sidebar */}
           <div className="xl:col-span-1">
-                 <div className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 sticky top-8">
+                 <div className="bg-gray-900/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-800/50 hover:border-purple-500/30 transition-colors duration-300 sticky top-8">
               <h3 className="text-2xl font-bold text-white mb-6 flex items-center">
-                <span className="w-1 h-6 bg-orange-500 rounded-full mr-3"></span>
+                <span className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-500 rounded-full mr-3"></span>
                 Movie Details
               </h3>
 
@@ -229,7 +234,7 @@ const MovieDetails = () => {
                   <h4 className="font-semibold text-white mb-2">Genres</h4>
                          <div className="flex flex-wrap gap-2">
                            {movie.genres ? movie.genres.map(genre => (
-                             <span key={genre.id} className="bg-orange-600/20 text-orange-300 px-3 py-1 rounded-full text-sm border border-orange-500/30">
+                             <span key={genre.id} className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 text-purple-300 px-3 py-1 rounded-full text-sm border border-purple-500/30">
                                {genre.name}
                              </span>
                            )) : <span className="text-slate-400">N/A</span>}
@@ -238,28 +243,28 @@ const MovieDetails = () => {
 
                 <div>
                   <h4 className="font-semibold text-white mb-2">Release Date</h4>
-                  <p className="text-slate-300">
+                  <p className="text-gray-300">
                     {movie.release_date ? new Date(movie.release_date).toLocaleDateString() : 'N/A'}
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-white mb-2">Runtime</h4>
-                  <p className="text-slate-300">
+                  <p className="text-gray-300">
                     {movie.runtime ? `${movie.runtime} minutes` : 'N/A'}
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-white mb-2">Budget</h4>
-                  <p className="text-slate-300">
+                  <p className="text-gray-300">
                     {movie.budget ? `$${movie.budget.toLocaleString()}` : 'N/A'}
                   </p>
                 </div>
 
                 <div>
                   <h4 className="font-semibold text-white mb-2">Revenue</h4>
-                  <p className="text-slate-300">
+                  <p className="text-gray-300">
                     {movie.revenue ? `$${movie.revenue.toLocaleString()}` : 'N/A'}
                   </p>
                 </div>
@@ -267,6 +272,7 @@ const MovieDetails = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
