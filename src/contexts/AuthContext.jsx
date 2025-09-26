@@ -28,10 +28,6 @@ export const AuthProvider = ({ children }) => {
     const initializeGoogleSignIn = () => {
       if (window.google && import.meta.env.VITE_GOOGLE_CLIENT_ID) {
         try {
-          console.log('🔐 Initializing Google Identity Services...');
-          console.log('Client ID:', import.meta.env.VITE_GOOGLE_CLIENT_ID);
-          console.log('Current origin:', window.location.origin);
-          console.log('Development environment:', isDevelopment);
           
           window.google.accounts.id.initialize({
             client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
@@ -39,18 +35,10 @@ export const AuthProvider = ({ children }) => {
             auto_select: false,
             cancel_on_tap_outside: false,
           });
-          
-          console.log('✅ Google Identity Services initialized successfully');
-          
-          // Only try One Tap in production or secure contexts
           if (!isDevelopment) {
-            console.log('🎯 Production environment detected - enabling One Tap');
             setIsOneTapAvailable(true);
-            // Show One Tap prompt automatically in production
             setTimeout(showOneTap, 1000);
           } else {
-            console.log('🔧 Development environment detected - One Tap may be restricted');
-            console.log('💡 Use the Sign-In button for development, One Tap will work in production');
             setIsOneTapAvailable(false);
           }
         } catch (error) {
@@ -58,12 +46,6 @@ export const AuthProvider = ({ children }) => {
           setIsOneTapAvailable(false);
         }
       } else {
-        if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
-          console.warn('⚠️ VITE_GOOGLE_CLIENT_ID not found in environment variables');
-        }
-        if (!window.google) {
-          console.warn('⚠️ Google Identity Services script not loaded');
-        }
       }
     };
 
@@ -71,8 +53,6 @@ export const AuthProvider = ({ children }) => {
     if (window.google) {
       initializeGoogleSignIn();
     } else {
-      console.log('⏳ Waiting for Google Identity Services to load...');
-      // Wait for the script to load
       const checkGoogleLoaded = setInterval(() => {
         if (window.google) {
           initializeGoogleSignIn();
@@ -80,27 +60,16 @@ export const AuthProvider = ({ children }) => {
         }
       }, 100);
 
-      // Cleanup interval after 10 seconds
       setTimeout(() => {
         clearInterval(checkGoogleLoaded);
-        if (!window.google) {
-          console.error('❌ Google Identity Services failed to load after 10 seconds');
-        }
       }, 10000);
     }
   }, []);
 
   const handleCredentialResponse = async (response) => {
     try {
-      console.log('🔐 Received Google credential response');
-      
-      // Create a Google credential with the token
       const credential = GoogleAuthProvider.credential(response.credential);
-      
-      // Sign in with the credential
       await signInWithCredential(auth, credential);
-      
-      console.log('✅ Successfully signed in with Google');
     } catch (error) {
       console.error('❌ Error signing in with Google:', error);
       
@@ -126,21 +95,13 @@ export const AuthProvider = ({ children }) => {
 
   const showOneTap = () => {
     if (window.google && !currentUser) {
-      console.log('🎯 Attempting to show Google One Tap...');
       try {
         window.google.accounts.id.prompt((notification) => {
-          console.log('One Tap notification:', notification);
           if (notification.isNotDisplayed()) {
             const reason = notification.getNotDisplayedReason();
-            console.log('❌ One Tap not displayed:', reason);
             if (reason === 'browser_not_supported' || reason === 'invalid_client' || reason === 'unregistered_origin') {
-              console.log('💡 This is likely due to localhost restrictions or origin issues');
               setIsOneTapAvailable(false);
             }
-          } else if (notification.isSkippedMoment()) {
-            console.log('⏭️ One Tap skipped:', notification.getSkippedReason());
-          } else if (notification.isDismissedMoment()) {
-            console.log('👋 One Tap dismissed:', notification.getDismissedReason());
           }
         });
       } catch (error) {

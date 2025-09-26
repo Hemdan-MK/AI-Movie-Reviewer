@@ -1,11 +1,6 @@
 const GOOGLE_AI_API_KEY = import.meta.env.VITE_GOOGLE_AI_API_KEY;
 const GOOGLE_AI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
 
-// Debug: Log Google AI API key status
-console.log('🤖 Google AI API Key:', GOOGLE_AI_API_KEY ? '✅ Set' : '❌ Missing');
-if (GOOGLE_AI_API_KEY) {
-  console.log('🤖 Google AI API Key (first 10 chars):', GOOGLE_AI_API_KEY.substring(0, 10) + '...');
-}
 
 export const googleAiApi = {
   // Generate AI summary from all reviews using Google AI (Gemini)
@@ -43,7 +38,6 @@ export const googleAiApi = {
 
       for (const model of models) {
         try {
-          console.log(`🔄 Trying Google AI model: ${model}`);
           const response = await fetch(`${GOOGLE_AI_BASE_URL}/models/${model}:generateContent?key=${GOOGLE_AI_API_KEY}`, {
             method: 'POST',
             headers: {
@@ -67,17 +61,14 @@ export const googleAiApi = {
             clearTimeout(timeoutId);
             const data = await response.json();
             const result = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Unable to generate summary at this time.';
-            console.log(`✅ Google AI model ${model} succeeded`);
             return result;
           } else if (response.status === 404) {
-            console.log(`❌ Google AI model ${model} not found, trying next...`);
             lastError = new Error(`Model ${model} not found`);
             continue;
           } else {
             throw new Error(`Google AI API error: ${response.status}`);
           }
         } catch (error) {
-          console.log(`❌ Google AI model ${model} failed:`, error.message);
           lastError = error;
           continue;
         }

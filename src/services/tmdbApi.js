@@ -1,11 +1,6 @@
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
-// Debug: Log TMDB API key status
-console.log('🎬 TMDB API Key:', TMDB_API_KEY ? '✅ Set' : '❌ Missing');
-if (TMDB_API_KEY) {
-  console.log('🎬 TMDB API Key (first 10 chars):', TMDB_API_KEY.substring(0, 10) + '...');
-}
 
 export const tmdbApi = {
   // Get popular movies

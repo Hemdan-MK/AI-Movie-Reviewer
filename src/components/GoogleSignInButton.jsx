@@ -35,17 +35,13 @@ const GoogleSignInButton = ({
           setIsReady(true);
           setHasError(false);
         } catch (error) {
-          console.error('Error rendering Google Sign-In button:', error);
           setHasError(true);
           setIsReady(false);
         }
       } else {
         // Check what's missing
-        if (!window.google) {
-          console.warn('Google Identity Services not loaded');
-        }
-        if (!import.meta.env.VITE_GOOGLE_CLIENT_ID) {
-          console.warn('VITE_GOOGLE_CLIENT_ID not configured');
+        if (!window.google || !import.meta.env.VITE_GOOGLE_CLIENT_ID) {
+          setHasError(true);
         }
         setHasError(true);
         setIsReady(false);

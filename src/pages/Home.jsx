@@ -13,7 +13,6 @@ import {
   MessageSquare
 } from 'lucide-react';
 
-// Animated Counter Hook
 const useAnimatedCounter = (end, duration = 2000, start = 0) => {
   const [count, setCount] = useState(start);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -30,8 +29,6 @@ const useAnimatedCounter = (end, duration = 2000, start = 0) => {
       const now = Date.now();
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
-      // Easing function for smooth animation
       const easeOutExpo = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
       const currentValue = Math.floor(startValue + (endValue - startValue) * easeOutExpo);
       
@@ -50,7 +47,6 @@ const useAnimatedCounter = (end, duration = 2000, start = 0) => {
   return { count, startAnimation };
 };
 
-// Animated Stat Card Component
 const AnimatedStatCard = ({ stat, index, inView }) => {
   const Icon = stat.icon;
   const counter = useAnimatedCounter(stat.value, 2000 + index * 200);
@@ -59,7 +55,6 @@ const AnimatedStatCard = ({ stat, index, inView }) => {
   useEffect(() => {
     if (inView && !hasAnimated) {
       setHasAnimated(true);
-      // Add delay based on index for staggered animation
       setTimeout(() => {
         counter.startAnimation();
       }, index * 200);
@@ -92,10 +87,8 @@ const AnimatedStatCard = ({ stat, index, inView }) => {
       }}
     >
       <div className="relative group">
-        {/* Glow Effect */}
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         
-        {/* Card */}
         <div className="relative bg-gray-900/30 backdrop-blur-sm border border-gray-800/50 rounded-2xl p-6 sm:p-8 text-center hover:border-purple-500/30 transition-colors duration-300">
           <motion.div 
             className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6"
@@ -158,7 +151,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Animated Background */}
       <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black"></div>
         <motion.div 
@@ -190,7 +182,6 @@ const Home = () => {
       </div>
 
       <div className="relative z-10">
-        {/* Hero Section */}
         <section ref={heroRef} className="relative pt-20 pb-16 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div
@@ -200,7 +191,6 @@ const Home = () => {
               className="text-center"
             >
 
-              {/* Main Title */}
               <motion.h1 
                 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 sm:mb-6"
                 initial={{ opacity: 0, y: 100 }}
@@ -226,7 +216,6 @@ const Home = () => {
                 with our comprehensive movie review platform.
               </motion.p>
 
-              {/* Action Button */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -255,7 +244,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Stats Section */}
         <section ref={statsRef} className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -276,7 +264,6 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Laser Flow Movies Section */}
         <LaserFlow />
       </div>
     </div>

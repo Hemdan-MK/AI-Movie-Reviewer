@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { tmdbApi } from '../services/tmdbApi';
-import { Button } from '../components/ui/button';
-import { Card, CardContent } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
 import { 
   Star, 
@@ -51,7 +49,6 @@ const Movies = () => {
     }
     
     try {
-      console.log('Movies: Loading movies for category:', selectedCategory, 'page:', page, 'search:', searchQuery);
       let data;
       
       if (searchQuery) {
@@ -76,7 +73,6 @@ const Movies = () => {
         }
       }
       
-      console.log('Movies: Data received:', data);
       
       if (data.results) {
         if (isLoadMore && page > 1) {
@@ -172,7 +168,6 @@ const Movies = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Animated Background */}
       <div className="fixed inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-black to-black"></div>
         <motion.div 
@@ -204,7 +199,6 @@ const Movies = () => {
       </div>
 
       <div className="relative z-10 pt-20 pb-8">
-        {/* Hero Section */}
         <section ref={heroRef} className="relative py-16 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <motion.div
@@ -496,7 +490,6 @@ const Movies = () => {
               </AnimatePresence>
             </motion.div>
 
-            {/* Load More Button */}
             {!loading && movies.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}

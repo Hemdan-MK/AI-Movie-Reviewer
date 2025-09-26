@@ -18,7 +18,6 @@ const MovieDetails = () => {
   const [tmdbReviewsLoading, setTmdbReviewsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('MovieDetails: Loading movie with ID:', id);
     loadMovieDetails();
     loadReviews();
     loadTmdbReviews();
@@ -26,9 +25,7 @@ const MovieDetails = () => {
 
   const loadMovieDetails = async () => {
     try {
-      console.log('MovieDetails: Fetching movie details for ID:', id);
       const data = await tmdbApi.getMovieDetails(id);
-      console.log('MovieDetails: Movie data received:', data);
       setMovie(data);
     } catch (error) {
       console.error('Error loading movie details:', error);
@@ -84,8 +81,6 @@ const MovieDetails = () => {
     );
   }
 
-  console.log(" movie ");
-  console.log(movie);
 
 
   if (!movie) {
