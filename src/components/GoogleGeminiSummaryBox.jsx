@@ -5,6 +5,7 @@ import { Globe, Loader2 } from 'lucide-react';
 const GoogleGeminiSummaryBox = ({ tmdbReviews, userReviews, movieTitle }) => {
   const [summary, setSummary] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const GoogleGeminiSummaryBox = ({ tmdbReviews, userReviews, movieTitle }) => {
       // Debounce the API call to prevent too many requests
       timeoutRef.current = setTimeout(() => {
         generateSummary();
-      }, 2000); // Wait 2 seconds after the last change
+      }, 5000); // Wait 5 seconds after the last change to reduce API calls
     }
 
     // Cleanup timeout on unmount
@@ -30,17 +31,23 @@ const GoogleGeminiSummaryBox = ({ tmdbReviews, userReviews, movieTitle }) => {
   }, [tmdbReviews, userReviews, movieTitle]);
 
   const generateSummary = async () => {
+    // Prevent multiple simultaneous calls
+    if (isGenerating) return;
+    
     setIsGenerating(true);
+    setHasError(false);
     try {
       const aiSummary = await googleAiApi.generateComprehensiveSummary(tmdbReviews, userReviews, movieTitle);
       setSummary(aiSummary);
     } catch (error) {
       console.error('Error generating Google Gemini summary:', error);
-      setSummary('Unable to generate AI summary at this time.');
+      setHasError(true);
+      setSummary('AI summary temporarily unavailable. Please try again later.');
     } finally {
       setIsGenerating(false);
     }
   };
+
 
   // Don't show summary if no reviews
   if ((!tmdbReviews || tmdbReviews.length === 0) && (!userReviews || userReviews.length === 0)) {
@@ -75,6 +82,9 @@ const GoogleGeminiSummaryBox = ({ tmdbReviews, userReviews, movieTitle }) => {
             {userReviews && userReviews.length > 0 && (
               <div>👥 {userReviews.length} user review{userReviews.length !== 1 ? 's' : ''}</div>
             )}
+            <div className="text-blue-600 text-xs mt-2">
+              ℹ️ AI summary powered by Google Gemini
+            </div>
           </div>
         </div>
       )}
